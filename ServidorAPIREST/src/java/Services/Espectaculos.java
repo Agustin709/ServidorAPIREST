@@ -5,7 +5,9 @@
  */
 package Services;
 
+import DTOs.EspectaculoDto;
 import DTOs.EspectadorDto;
+
 import com.google.gson.Gson;
 import java.util.Date;
 import javax.validation.Valid;
@@ -30,9 +32,9 @@ public class Espectaculos {
     @Path("/")
     public Response getTexto(@PathParam("texto") String texto) {
         try {
-                
-            EspectadorDto usuario = new EspectadorDto(texto, "Edison", "Cavani", "edi@gmail.com", new Date(), -1, "123");  
-            return Response.ok(new Gson().toJson(usuario), MediaType.APPLICATION_JSON).build();
+               System.out.println(texto); 
+           // EspectadorDto usuario = new EspectadorDto(texto, "Edison", "Cavani", "edi@gmail.com", new Date(), -1, "123");  
+            return Response.ok(new Gson().toJson(texto), MediaType.APPLICATION_JSON).build();
 
         } catch (Exception e) {
             System.out.println("Services.Espectaculo.getTexto()" + e.toString());
@@ -42,7 +44,8 @@ public class Espectaculos {
     
     @POST
     @Path("/")
-     public Response getDatos (@Valid EspectadorDto dato){
+    @Produces(MediaType.APPLICATION_JSON)
+     public Response getDatos(@Valid EspectaculoDto dato){
          try {
              //EspectadorDto espectaculo = new EspectadorDto ("lucho9","Luis","Suarez","lucho@gmail.com",new Date(), -2, "123");
              return Response.ok(new Gson().toJson(dato), MediaType.APPLICATION_JSON).build();
