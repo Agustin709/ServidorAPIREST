@@ -6,7 +6,9 @@
 package Services;
 
 import DTOs.ArtistaDto;
+import DTOs.EspectaculoDto;
 import DTOs.EspectadorDto;
+import DTOs.UsuarioDto;
 import Utility.GsonToUse;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import javax.ws.rs.core.Response;
 import logica.Fabrica;
 import logica.clases.Artista;
 import logica.clases.Espectador;
+import logica.clases.Usuario;
 import logica.interfaces.InterfaceUsuario;
 
 /**
@@ -155,7 +158,7 @@ public class Users {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
             Artista r = Fabrica.getInstance().getInstanceControllerUsuario().obtener_artista_de_id(GsonToUse.gson.fromJson(arguments.get(0), int.class));
-            ArtistaDto ar = new ArtistaDto(r.getDescripcion(), r.getBiografia(), r.getSitio_web(), r.getNickname(), r.getNombre(), r.getApellido(), r.getCorreo(), new Date(r.getNacimiento().getTime()), r.getId(), r.getContrasenia());
+            ArtistaDto ar = ArtistaDto.fromArtista(r);
             return Response.ok(GsonToUse.gson.toJson(ar), MediaType.APPLICATION_JSON).build();
 		
         } catch (Exception e) {
@@ -173,7 +176,7 @@ public class Users {
 	    ArrayList<Artista> e = Fabrica.getInstance().getInstanceControllerUsuario().obtener_artistas_invitados(GsonToUse.gson.fromJson(arguments.get(0), int.class));
             ArrayList<ArtistaDto> artistas = new ArrayList<>();
             for (Artista item : e) {
-                artistas.add(new ArtistaDto(item.getDescripcion(), item.getBiografia(), item.getSitio_web(), item.getNickname(), item.getNombre(), item.getApellido(), item.getCorreo(), new Date(item.getNacimiento().getTime()), item.getId(), item.getContrasenia()));
+                artistas.add(ArtistaDto.fromArtista(item));
             }
             ArrayList<String> r = new ArrayList<>();
             for (ArtistaDto item : artistas) {
@@ -194,7 +197,8 @@ public class Users {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
             Artista r = Fabrica.getInstance().getInstanceControllerUsuario().obtener_artista_de_nickname(GsonToUse.gson.fromJson(arguments.get(0), String.class));
-            ArtistaDto ar = new ArtistaDto(r.getDescripcion(), r.getBiografia(), r.getSitio_web(), r.getNickname(), r.getNombre(), r.getApellido(), r.getCorreo(), new Date(r.getNacimiento().getTime()), r.getId(), r.getContrasenia());
+//            System.out.println("artista: " + GsonToUse.gson.fromJson(arguments.get(0), String.class));
+            ArtistaDto ar = ArtistaDto.fromArtista(r);
             return Response.ok(GsonToUse.gson.toJson(ar), MediaType.APPLICATION_JSON).build();
 		
         } catch (Exception e) {
@@ -210,7 +214,7 @@ public class Users {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
             Espectador r = Fabrica.getInstance().getInstanceControllerUsuario().obtener_espectador_de_nickname(GsonToUse.gson.fromJson(arguments.get(0), String.class));
-            EspectadorDto dto = new EspectadorDto(r.getNickname(), r.getNombre(), r.getApellido(), r.getCorreo(), new Date(r.getNacimiento().getTime()), r.getId(), r.getContrasenia());
+            EspectadorDto dto = EspectadorDto.fromEspectador(r);
 
             String retorna = GsonToUse.gson.toJson(dto);
 //            System.out.println(retorna);
@@ -273,9 +277,8 @@ public class Users {
         try {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
-            Fabrica.getInstance().getInstanceControllerUsuario().modificar_artista(GsonToUse.gson.fromJson(arguments.get(0), int.class), GsonToUse.gson.fromJson(arguments.get(1), Artista.class));
+            Fabrica.getInstance().getInstanceControllerUsuario().modificar_artista(GsonToUse.gson.fromJson(arguments.get(0), int.class), ArtistaDto.toArtista(GsonToUse.gson.fromJson(arguments.get(1), ArtistaDto.class)));
             return Response.ok().build();
-		
         } catch (Exception e) {
             System.out.println("/users/modificar_artista:" + e.toString());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -288,7 +291,7 @@ public class Users {
         try {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
-            Fabrica.getInstance().getInstanceControllerUsuario().modificar_espectador(GsonToUse.gson.fromJson(arguments.get(0), int.class), GsonToUse.gson.fromJson(arguments.get(1), Espectador.class));
+            Fabrica.getInstance().getInstanceControllerUsuario().modificar_espectador(GsonToUse.gson.fromJson(arguments.get(0), int.class), EspectadorDto.toEspectador(GsonToUse.gson.fromJson(arguments.get(1), EspectadorDto.class)));
             return Response.ok().build();
 		
         } catch (Exception e) {
@@ -363,7 +366,7 @@ public class Users {
         try {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
-            Fabrica.getInstance().getInstanceControllerUsuario().registrar_artista(GsonToUse.gson.fromJson(arguments.get(0), Artista.class), GsonToUse.gson.fromJson(arguments.get(1), byte[].class));
+            Fabrica.getInstance().getInstanceControllerUsuario().registrar_artista(ArtistaDto.toArtista(GsonToUse.gson.fromJson(arguments.get(0), ArtistaDto.class)), GsonToUse.gson.fromJson(arguments.get(1), byte[].class));
             return Response.ok().build();
 		
         } catch (Exception e) {
@@ -378,7 +381,7 @@ public class Users {
         try {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
-            Fabrica.getInstance().getInstanceControllerUsuario().registrar_espectador(GsonToUse.gson.fromJson(arguments.get(0), Espectador.class), GsonToUse.gson.fromJson(arguments.get(1), byte[].class));
+            Fabrica.getInstance().getInstanceControllerUsuario().registrar_espectador(EspectadorDto.toEspectador(GsonToUse.gson.fromJson(arguments.get(0), EspectadorDto.class)), GsonToUse.gson.fromJson(arguments.get(1), byte[].class));
             return Response.ok().build();
 		
         } catch (Exception e) {
@@ -401,4 +404,32 @@ public class Users {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @POST
+    @Path("/obtener_usuarios")
+    public Response obtener_usuarios(String datos){
+        try {
+            ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
+
+	    ArrayList<Usuario> e = Fabrica.getInstance().getInstanceControllerUsuario().obtener_usuarios();
+
+            ArrayList<String> r = new ArrayList<>();
+            for (Usuario item : e) {
+                try {
+                    Artista artista = (Artista)item;
+                    r.add(GsonToUse.gson.toJson(ArtistaDto.fromArtista(artista)));
+                } catch (ClassCastException ex) {
+                    Espectador espectador = (Espectador)item;
+                    r.add(GsonToUse.gson.toJson(EspectadorDto.fromEspectador(espectador)));
+                }
+            }
+
+            return Response.ok(GsonToUse.gson.toJson(r), MediaType.APPLICATION_JSON).build();
+
+        } catch (Exception e) {
+            System.out.println("/users/obtener_usuarios:" + e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    
 }

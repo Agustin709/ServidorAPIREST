@@ -127,7 +127,7 @@ public class Espectaculos {
 	    ArrayList<Espectaculo> e = Fabrica.getInstance().getInstanceControladorEspectaculo().obtener_espectaculos_aceptados_no_de_paquete(GsonToUse.gson.fromJson(arguments.get(0), int.class));
             ArrayList<EspectaculoDto> dtos = new ArrayList<>();
             for (Espectaculo item : e) {
-                dtos.add(new EspectaculoDto(item.getPlataforma(), item.getNombre(), item.getDescripcion(), item.getDuracion(), item.getMin_espectador(), item.getMax_espectador(), item.getUrl(), item.getCosto(), new Date(item.getFecha_registro().getTime()), item.getId(), item.getId_artista()));
+                dtos.add(new EspectaculoDto(item));
             }
 //public EspectaculoDto(String plataforma, String nombre, String descripcion, int duracion, int min_espectador, int max_espectador, String url, int costo, Date fecha_registro, int id, int id_artista) {
             ArrayList<String> r = new ArrayList<>();
@@ -149,7 +149,7 @@ public class Espectaculos {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
             Espectaculo item = Fabrica.getInstance().getInstanceControladorEspectaculo().obtener_espectaculo(GsonToUse.gson.fromJson(arguments.get(0), int.class));
-            EspectaculoDto dto = new EspectaculoDto(item.getPlataforma(), item.getNombre(), item.getDescripcion(), item.getDuracion(), item.getMin_espectador(), item.getMax_espectador(), item.getUrl(), item.getCosto(), new Date(item.getFecha_registro().getTime()), item.getId(), item.getId_artista());
+            EspectaculoDto dto = new EspectaculoDto(item);
             return Response.ok(GsonToUse.gson.toJson(dto), MediaType.APPLICATION_JSON).build();
 		
         } catch (Exception e) {
@@ -210,7 +210,7 @@ public class Espectaculos {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
             Paquete r = Fabrica.getInstance().getInstanceControladorEspectaculo().obtener_info_paquete(GsonToUse.gson.fromJson(arguments.get(0), String.class));
-            PaqueteDto dto = new PaqueteDto(r.getNombre(), r.getDescripcion(), new Date(r.getFecha_inicio().getTime()), new Date(r.getFecha_fin().getTime()), r.getDescuento(), r.getId());
+            PaqueteDto dto = PaqueteDto.fromPaquete(r);
             return Response.ok(GsonToUse.gson.toJson(dto), MediaType.APPLICATION_JSON).build();
 		
         } catch (Exception e) {
@@ -408,7 +408,7 @@ public class Espectaculos {
 	    ArrayList<Funcion> e = Fabrica.getInstance().getInstanceControladorEspectaculo().obtener_funciones_de_espectaculo(GsonToUse.gson.fromJson(arguments.get(0), int.class));
 	    ArrayList<FuncionDto> dtos = new ArrayList<>();
             for (Funcion item : e) {
-                dtos.add(new FuncionDto(item.getNombre(), new Date(item.getFecha().getTime()), item.getHora_inicio(), new Date(item.getFecha_registro().getTime()), item.getId(), item.getId_espectaculo()));
+                dtos.add(FuncionDto.fromFuncion(item));
 //public FuncionDto(String nombre, Date fecha, int hora_inicio, Date fecha_registro, int id, int id_espectaculo) {
             }
             ArrayList<String> r = new ArrayList<>();
@@ -445,7 +445,7 @@ public class Espectaculos {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
             Funcion item = Fabrica.getInstance().getInstanceControladorEspectaculo().obtener_funcion_por_id(GsonToUse.gson.fromJson(arguments.get(0), int.class));
-            FuncionDto dto = new FuncionDto(item.getNombre(), new Date(item.getFecha().getTime()), item.getHora_inicio(), new Date(item.getFecha_registro().getTime()), item.getId(), item.getId_espectaculo());
+            FuncionDto dto = FuncionDto.fromFuncion(item);
             return Response.ok(GsonToUse.gson.toJson(dto), MediaType.APPLICATION_JSON).build();
 		
         } catch (Exception e) {
@@ -461,7 +461,7 @@ public class Espectaculos {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
             Espectaculo item = Fabrica.getInstance().getInstanceControladorEspectaculo().obtener_espectaculo_de_funcion(GsonToUse.gson.fromJson(arguments.get(0), int.class));
-            EspectaculoDto dto = new EspectaculoDto(item.getPlataforma(), item.getNombre(), item.getDescripcion(), item.getDuracion(), item.getMin_espectador(), item.getMax_espectador(), item.getUrl(), item.getCosto(), new Date(item.getFecha_registro().getTime()), item.getId(), item.getId_artista());
+            EspectaculoDto dto = new EspectaculoDto(item);
             return Response.ok(GsonToUse.gson.toJson(dto), MediaType.APPLICATION_JSON).build();
 		
         } catch (Exception e) {
@@ -479,7 +479,7 @@ public class Espectaculos {
 	    ArrayList<Espectaculo> e = Fabrica.getInstance().getInstanceControladorEspectaculo().obtener_espectaculos_aceptados_de_paquete(GsonToUse.gson.fromJson(arguments.get(0), int.class));
             ArrayList<EspectaculoDto> dtos = new ArrayList<>();
             for (Espectaculo item : e) {
-                dtos.add(new EspectaculoDto(item.getPlataforma(), item.getNombre(), item.getDescripcion(), item.getDuracion(), item.getMin_espectador(), item.getMax_espectador(), item.getUrl(), item.getCosto(), new Date(item.getFecha_registro().getTime()), item.getId(), item.getId_artista()));
+                dtos.add(new EspectaculoDto(item));
             }
             ArrayList<String> r = new ArrayList<>();
             for (EspectaculoDto item : dtos) {
@@ -502,7 +502,7 @@ public class Espectaculos {
 	    ArrayList<Registro_funcion> e = Fabrica.getInstance().getInstanceControladorEspectaculo().obtener_todos_los_registros_de_espectador(GsonToUse.gson.fromJson(arguments.get(0), int.class));
             ArrayList<Registro_funcionDto> dtos = new ArrayList<>();
             for (Registro_funcion item : e) {
-                dtos.add(new Registro_funcionDto(new Date(item.getFecha_registro().getTime()), item.getCosto(), item.getId_funcion(), item.getId_espectador()));
+                dtos.add(Registro_funcionDto.fromRegistro_funcion(item));
             }
             ArrayList<String> r = new ArrayList<>();
             for (Registro_funcionDto item : dtos) {
@@ -525,7 +525,7 @@ public class Espectaculos {
 	    ArrayList<Paquete> e = Fabrica.getInstance().getInstanceControladorEspectaculo().obtener_paquetes_comprados_por_espectador(GsonToUse.gson.fromJson(arguments.get(0), String.class));
 	    ArrayList<PaqueteDto> dtos = new ArrayList<>();
             for (Paquete paquete : e) {
-                dtos.add(new PaqueteDto(paquete.getNombre(), paquete.getDescripcion(), new Date(paquete.getFecha_inicio().getTime()), new Date(paquete.getFecha_fin().getTime()), paquete.getDescuento(), paquete.getId()));
+                dtos.add(PaqueteDto.fromPaquete(paquete));
             }
             ArrayList<String> r = new ArrayList<>();
             for (PaqueteDto item : dtos) {
@@ -548,7 +548,7 @@ public class Espectaculos {
 	    ArrayList<Espectaculo> e = Fabrica.getInstance().getInstanceControladorEspectaculo().obtener_espectaculos_de_artista(GsonToUse.gson.fromJson(arguments.get(0), String.class));
             ArrayList<EspectaculoDto> dtos = new ArrayList<>();
             for (Espectaculo item : e) {
-                dtos.add(new EspectaculoDto(item.getPlataforma(), item.getNombre(), item.getDescripcion(), item.getDuracion(), item.getMin_espectador(), item.getMax_espectador(), item.getUrl(), item.getCosto(), new Date(item.getFecha_registro().getTime()), item.getId(), item.getId_artista()));
+                dtos.add(new EspectaculoDto(item));
             }
             ArrayList<String> r = new ArrayList<>();
             for (EspectaculoDto item : dtos) {
@@ -583,7 +583,7 @@ public class Espectaculos {
         try {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
-            Boolean r = Fabrica.getInstance().getInstanceControladorEspectaculo().registrar_paquete(GsonToUse.gson.fromJson(arguments.get(0), Paquete.class), GsonToUse.gson.fromJson(arguments.get(1), byte[].class));
+            Boolean r = Fabrica.getInstance().getInstanceControladorEspectaculo().registrar_paquete(PaqueteDto.toPaquete(GsonToUse.gson.fromJson(arguments.get(0), PaqueteDto.class)), GsonToUse.gson.fromJson(arguments.get(1), byte[].class));
             return Response.ok(GsonToUse.gson.toJson(r), MediaType.APPLICATION_JSON).build();
 		
         } catch (Exception e) {
@@ -601,12 +601,12 @@ public class Espectaculos {
 	    ArrayList<Espectaculo> e = Fabrica.getInstance().getInstanceControladorEspectaculo().get_espectaculos_aceptados();
             ArrayList<EspectaculoDto> dtos = new ArrayList<>();
             for (Espectaculo item : e) {
-                dtos.add(new EspectaculoDto(item.getPlataforma(), item.getNombre(), item.getDescripcion(), item.getDuracion(), item.getMin_espectador(), item.getMax_espectador(), item.getUrl(), item.getCosto(), new Date(item.getFecha_registro().getTime()), item.getId(), item.getId_artista()));
+                dtos.add(new EspectaculoDto(item));
             }
             ArrayList<String> r = new ArrayList<>();
             for (EspectaculoDto item : dtos) {
                 r.add(GsonToUse.gson.toJson(item));
-                System.out.println(GsonToUse.gson.toJson(item));
+//                System.out.println(GsonToUse.gson.toJson(item));
             }
 	    return Response.ok(GsonToUse.gson.toJson(r), MediaType.APPLICATION_JSON).build();
 		
@@ -625,7 +625,7 @@ public class Espectaculos {
 	    ArrayList<Registro_funcion> e = Fabrica.getInstance().getInstanceControladorEspectaculo().obtener_registros_de_espectador(GsonToUse.gson.fromJson(arguments.get(0), int.class));
             ArrayList<Registro_funcionDto> dtos = new ArrayList<>();
             for (Registro_funcion item : e) {
-                dtos.add(new Registro_funcionDto(new Date(item.getFecha_registro().getTime()), item.getCosto(), item.getId_funcion(), item.getId_espectador()));
+                dtos.add(Registro_funcionDto.fromRegistro_funcion(item));
             }
             ArrayList<String> r = new ArrayList<>();
             for (Registro_funcionDto item : dtos) {
@@ -646,7 +646,7 @@ public class Espectaculos {
 	    ArrayList<Espectaculo> e = Fabrica.getInstance().getInstanceControladorEspectaculo().get_espectaculos_aceptados();
             ArrayList<String> r = new ArrayList<>();
 //            e.get(0).setFecha_registro(new Date(e.get(0).getFecha_registro().getTime()));
-            r.add(GsonToUse.gson.toJson(e.get(0)));//new Espectaculo("plata", "hola", "kha", 23, 1, 44, "sss", 2, new Date(2, 3, 1990), -1, -1)));
+            r.add(GsonToUse.gson.toJson(e.get(0)));
             return Response.ok(GsonToUse.gson.toJson(r), MediaType.APPLICATION_JSON).build();
         } catch (Exception e) {
             System.out.println("/espectaculos/obtener_registros_de_espectador:" + e.toString());

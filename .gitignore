@@ -27,3 +27,5 @@ ServidorAPIREST/nbproject
 ServidorAPIREST/build.xml
 ServidorAPIREST/manifest.mf
 /ServidorAPIREST/dist/
+
+*.properties

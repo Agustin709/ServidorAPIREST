@@ -7,6 +7,8 @@ package Services;
 
 import DTOs.ArtistaDto;
 import DTOs.CategoriaDto;
+import DTOs.EspectaculoDto;
+import DTOs.FuncionDto;
 import DTOs.PaqueteDto;
 import Utility.GsonToUse;
 import com.google.gson.Gson;
@@ -37,7 +39,7 @@ public class Plataforma {
 
             boolean r = Fabrica.getInstance().getInstanceControladorPlataforma().Agregar_espectaculo_a_paquete(GsonToUse.gson.fromJson(arguments.get(0), int.class), GsonToUse.gson.fromJson(arguments.get(1), String.class));
             return Response.ok(GsonToUse.gson.toJson(r), MediaType.APPLICATION_JSON).build();
-		
+
         } catch (Exception e) {
             System.out.println("/plataformas/Agregar_espectaculo_a_paquete:" + e.toString());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -51,7 +53,7 @@ public class Plataforma {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
             Paquete r = Fabrica.getInstance().getInstanceControladorPlataforma().obtener_info_paquetes(GsonToUse.gson.fromJson(arguments.get(0), int.class));
-            PaqueteDto dto = new PaqueteDto(r.getNombre(), r.getDescripcion(), new Date(r.getFecha_inicio().getTime()), new Date(r.getFecha_fin().getTime()), r.getDescuento(), r.getId());
+            PaqueteDto dto = PaqueteDto.fromPaquete(r);
 
             return Response.ok(GsonToUse.gson.toJson(dto), MediaType.APPLICATION_JSON).build();
 		
@@ -67,7 +69,7 @@ public class Plataforma {
         try {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
-            boolean r = Fabrica.getInstance().getInstanceControladorPlataforma().crear_Espectaculo(GsonToUse.gson.fromJson(arguments.get(0), Espectaculo.class), GsonToUse.gson.fromJson(arguments.get(1), byte[].class));
+            boolean r = Fabrica.getInstance().getInstanceControladorPlataforma().crear_Espectaculo(EspectaculoDto.toEspectaculo(GsonToUse.gson.fromJson(arguments.get(0), EspectaculoDto.class)), GsonToUse.gson.fromJson(arguments.get(1), byte[].class));
             return Response.ok(GsonToUse.gson.toJson(r), MediaType.APPLICATION_JSON).build();
 		
         } catch (Exception e) {
@@ -130,7 +132,7 @@ public class Plataforma {
 	    ArrayList<Categoria> e = Fabrica.getInstance().getInstanceControladorPlataforma().obtener_categorias();
             ArrayList<CategoriaDto> categorias = new ArrayList<>();
             for (Categoria item : e) {
-                categorias.add(new CategoriaDto(item.getNombre(), item.getId()));
+                categorias.add(CategoriaDto.fromCategoria(item));
             }
             ArrayList<String> r = new ArrayList<>();
             for (CategoriaDto item : categorias) {
@@ -150,7 +152,7 @@ public class Plataforma {
         try {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
-            boolean r = Fabrica.getInstance().getInstanceControladorPlataforma().Alta_de_Funcion(GsonToUse.gson.fromJson(arguments.get(0), Funcion.class), GsonToUse.gson.fromJson(arguments.get(1), byte[].class));
+            boolean r = Fabrica.getInstance().getInstanceControladorPlataforma().Alta_de_Funcion(FuncionDto.toFuncion(GsonToUse.gson.fromJson(arguments.get(0), FuncionDto.class)), GsonToUse.gson.fromJson(arguments.get(1), byte[].class));
             return Response.ok(GsonToUse.gson.toJson(r), MediaType.APPLICATION_JSON).build();
 		
         } catch (Exception e) {
@@ -213,7 +215,7 @@ public class Plataforma {
 	    ArrayList<Artista> e = Fabrica.getInstance().getInstanceControladorPlataforma().obtener_artistas_disponibles();
             ArrayList<ArtistaDto> artistas = new ArrayList<>();
             for (Artista item : e) {
-                artistas.add(new ArtistaDto(item.getDescripcion(), item.getBiografia(), item.getSitio_web(), item.getNickname(), item.getNombre(), item.getApellido(), item.getCorreo(), new Date(item.getNacimiento().getTime()), item.getId(), item.getContrasenia()));
+                artistas.add(ArtistaDto.fromArtista(item));
             }
             ArrayList<String> r = new ArrayList<>();
             for (ArtistaDto item : artistas) {
@@ -251,7 +253,7 @@ public class Plataforma {
 	    ArrayList<Paquete> e = Fabrica.getInstance().getInstanceControladorPlataforma().obtener_paquetes();
 	    ArrayList<PaqueteDto> dtos = new ArrayList<>();
             for (Paquete paquete : e) {
-                dtos.add(new PaqueteDto(paquete.getNombre(), paquete.getDescripcion(), new Date(paquete.getFecha_inicio().getTime()), new Date(paquete.getFecha_fin().getTime()), paquete.getDescuento(), paquete.getId()));
+                dtos.add(PaqueteDto.fromPaquete(paquete));
             }
 
             ArrayList<String> r = new ArrayList<>();
