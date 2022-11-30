@@ -2,17 +2,27 @@ package DTOs;
 
 import java.io.Serializable;
 import java.util.Date;
+import logica.clases.Usuario;
 
-public abstract class UsuarioDto implements Serializable {
+public class UsuarioDto implements Serializable {
+
+//    public static Usuario toUsuario(UsuarioDto item) {
+//        ArtistaDto artista = (ArtistaDto)item;
+//        EspectadorDto espectador = (EspectadorDto)item;
+//        if (artista != null)
+//            return ArtistaDto.toArtista(artista);
+//        return EspectadorDto.toEspectador(espectador);
+//    }
     private String nickname;
     private String nombre;
     private String apellido;
     private String correo;
-    private Date nacimiento;
+    private long nacimiento;
     private int id;
     private String contrasenia;
+    private final String tipo;
 
-    public UsuarioDto(String nickname, String nombre, String apellido, String correo, Date nacimiento, int id, String contrasenia) {
+    public UsuarioDto(String nickname, String nombre, String apellido, String correo, long nacimiento, int id, String contrasenia, String tipo) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -20,6 +30,7 @@ public abstract class UsuarioDto implements Serializable {
         this.nacimiento = nacimiento;
         this.id = id;
         this.contrasenia = contrasenia;
+        this.tipo = tipo;
     }
 
     public String getContrasenia() {
@@ -62,11 +73,11 @@ public abstract class UsuarioDto implements Serializable {
         this.correo = correo;
     }
 
-    public Date getNacimiento() {
+    public long getNacimiento() {
         return nacimiento;
     }
 
-    public void setNacimiento(Date nacimiento) {
+    public void setNacimiento(long nacimiento) {
         this.nacimiento = nacimiento;
     }
 
@@ -81,6 +92,10 @@ public abstract class UsuarioDto implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getTipo() {
+        return tipo;
     }
     
     
