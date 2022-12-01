@@ -163,6 +163,51 @@ public class Users {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
+    
+    @POST
+    @Path("/marcar_favorito_a")
+    public Response marcar_favorito_a(String datos){
+        try {
+            ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
+
+            Fabrica.getInstance().getInstanceControllerUsuario().marcar_favorito(GsonToUse.gson.fromJson(arguments.get(0), String.class), GsonToUse.gson.fromJson(arguments.get(1), int.class));
+            return Response.ok().build();
+		
+        } catch (Exception e) {
+            System.out.println("problemas en marcar favorito servelet" + e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @POST
+    @Path("/desmarcar_favorito_a")
+    public Response desmarcar_favorito_a(String datos){
+        try {
+            ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
+
+            Fabrica.getInstance().getInstanceControllerUsuario().desmarcar_favorito(GsonToUse.gson.fromJson(arguments.get(0), String.class), GsonToUse.gson.fromJson(arguments.get(1), int.class));
+            return Response.ok().build();
+		
+        } catch (Exception e) {
+            System.out.println("problemas en descarcar favorito servelet" + e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    
+     @POST
+    @Path("/tiene_favorito_a")
+    public Response tiene_favorito_a(String datos){
+        try {
+            ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
+            
+            boolean r = Fabrica.getInstance().getInstanceControllerUsuario().tiene_favorito_a(GsonToUse.gson.fromJson(arguments.get(0), String.class), GsonToUse.gson.fromJson(arguments.get(1), int.class));
+            return Response.ok(GsonToUse.gson.toJson(r), MediaType.APPLICATION_JSON).build();
+		
+        } catch (Exception e) {
+            System.out.println("problemas en tiene favorito servelet" + e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
     @POST
     @Path("/obtener_artista_de_id")
