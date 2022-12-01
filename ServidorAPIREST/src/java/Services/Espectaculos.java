@@ -160,6 +160,7 @@ public class Espectaculos {
         try {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
+//            System.out.println("hola " + GsonToUse.gson.fromJson(arguments.get(0), String.class));
             Paquete r = Fabrica.getInstance().getInstanceControladorEspectaculo().obtener_info_paquete(GsonToUse.gson.fromJson(arguments.get(0), String.class));
             PaqueteDto dto = PaqueteDto.fromPaquete(r);
             return Response.ok(GsonToUse.gson.toJson(dto), MediaType.APPLICATION_JSON).build();
@@ -589,5 +590,36 @@ public class Espectaculos {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @POST
+    @Path("/finalizar_espectaculo")
+    public Response finalizar_espectaculo(String datos){
+        try {
+            ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
+
+            Fabrica.getInstance().getInstanceControladorEspectaculo().finalizar_espectaculo(GsonToUse.gson.fromJson(arguments.get(0), int.class));
+            return Response.ok().build();
+		
+        } catch (Exception e) {
+            System.out.println("/espectaculos/canjear_registro:" + e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     
+    //obtener_nombres_de_paquetes_asociados_a_espectaculo_y_comprado_por
+    @POST
+    @Path("/obtener_nombres_de_paquetes_asociados_a_espectaculo_y_comprado_por")
+    public Response obtener_nombres_de_paquetes_asociados_a_espectaculo_y_comprado_por(String datos){
+        try {
+            ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
+
+            ArrayList<String> r = Fabrica.getInstance().getInstanceControladorEspectaculo().obtener_nombres_de_paquetes_asociados_a_espectaculo_y_comprado_por(GsonToUse.gson.fromJson(arguments.get(0), int.class), GsonToUse.gson.fromJson(arguments.get(1), int.class));
+            return Response.ok(GsonToUse.gson.toJson(r), MediaType.APPLICATION_JSON).build();
+		
+        } catch (Exception e) {
+            System.out.println("/espectaculos/obtener_nombres_de_paquetes_asociados_a_espectaculo:" + e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }
