@@ -536,7 +536,8 @@ public class Espectaculos {
             ArrayList<String> arguments = GsonToUse.gson.fromJson(datos, ArrayList.class);
 
             Boolean r = Fabrica.getInstance().getInstanceControladorEspectaculo().registrar_paquete(PaqueteDto.toPaquete(GsonToUse.gson.fromJson(arguments.get(0), PaqueteDto.class)), GsonToUse.gson.fromJson(arguments.get(1), byte[].class));
-            return Response.ok(GsonToUse.gson.toJson(r), MediaType.APPLICATION_JSON).build();
+            boolean rr = r.booleanValue();
+            return Response.ok(GsonToUse.gson.toJson(rr), MediaType.APPLICATION_JSON).build();
 		
         } catch (Exception e) {
             System.out.println("/espectaculos/registrar_paquete:" + e.toString());
